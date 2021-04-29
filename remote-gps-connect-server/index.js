@@ -1,8 +1,9 @@
 const fs = require('fs');
 const httpsServer = require("https").createServer({
-    key: fs.readFileSync('./security/key.pem'),
-    cert: fs.readFileSync('./security/cert.pem')
+    key: fs.readFileSync('./ssl/key.pem'),
+    cert: fs.readFileSync('./ssl/cert.pem')
 })
+const port = 3005
 const io = require("socket.io")(httpsServer, {
     path: "/mobile-location",
     cors: {
@@ -121,5 +122,6 @@ io.on("connection", (socket) => {
     }
 })
 
-console.log("listening on port 3005")
-httpsServer.listen(3005)
+httpsServer.listen(port, () => {
+    console.log(`listening on port ${port}`)
+});

@@ -1,0 +1,157 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Share Tracking Service",
+        "version": "1.0.0",
+        "contact": {},
+        "description": "share a tracking data with others, no authentication needed.\nthe data is represented by its hash, and will be kept only for 7 days."
+    },
+    "paths": {
+        "/share-tracking/all": {
+            "get": {
+                "summary": "show all tracking records",
+                "description": "",
+                "parameters": [],
+                "operationId": "ShowAlllTracking",
+                "responses": {
+                    "200": {
+                        "description": "Default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Tracking_Record"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/share-tracking": {
+            "get": {
+                "summary": "add a tracking",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "hash",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Hash"
+                        },
+                        "description": ""
+                    }
+                ],
+                "operationId": "GetTracking",
+                "responses": {
+                    "200": {
+                        "description": "tracking data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tracking_Record"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                },
+                "callbacks": {}
+            },
+            "post": {
+                "summary": "save a tracking",
+                "description": "",
+                "parameters": [],
+                "operationId": "PostTracking",
+                "responses": {
+                    "200": {
+                        "description": "Default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Hash"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid content"
+                    }
+                },
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Tracking_Record"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "security": [],
+    "servers": [
+        {
+            "url": "/",
+            "description": "",
+            "variables": {}
+        }
+    ],
+    "components": {
+        "links": {},
+        "callbacks": {},
+        "schemas": {
+            "Tracking_Record": {
+                "type": "object",
+                "properties": {
+                    "path": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Position"
+                        }
+                    },
+                    "start_at": {
+                        "type": "number"
+                    },
+                    "end_at": {
+                        "type": "number"
+                    },
+                    "tag": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Position": {
+                "type": "object",
+                "properties": {
+                    "latitude": {
+                        "type": "number"
+                    },
+                    "longitude": {
+                        "type": "number"
+                    },
+                    "time": {
+                        "type": "number"
+                    }
+                }
+            },
+            "Hash": {
+                "type": "object",
+                "properties": {
+                    "hash": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {}
+    },
+    "tags": []
+}

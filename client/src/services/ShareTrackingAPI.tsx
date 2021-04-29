@@ -10,10 +10,12 @@ export function upload(tracking : Record) {
 }
 
 export function download(hash : string) {
-    return instance.get("/share-tracking", {data:{hash}})
+    return instance.get("/share-tracking", {params:{hash}})
 }
 
-export default {
+const api = {
     upload,
     download
 }
+
+export default api

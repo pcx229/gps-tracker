@@ -8,7 +8,6 @@ import {
 import Home from './pages/home'
 import Item from './pages/item'
 import Mobile from './pages/mobile'
-import Share from './pages/share'
 
 export default function App() {
   return (

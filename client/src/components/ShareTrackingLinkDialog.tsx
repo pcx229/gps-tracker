@@ -22,6 +22,13 @@ const useStyles =  makeStyles((theme: Theme) => createStyles({
     buttonNoCaps: {
         textTransform: "none",
         margin: "5px"
+    },
+    inputLinkMore: {
+        '& input': {
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis"
+        }
     }
   }),
 )
@@ -65,7 +72,7 @@ export default function  ShareTrackingLinkDialog({isOpen, setOpen, record} :  Sh
         }
     }, [record])
 
-    const link = process.env.REACT_APP_URL + "/share?hash=" + hash
+    const link = process.env.REACT_APP_URL + "/share/" + hash
 
     const copyToClipbard = () => {
         copy(link)
@@ -80,40 +87,31 @@ export default function  ShareTrackingLinkDialog({isOpen, setOpen, record} :  Sh
         setOpen(false)
     }
 
+    let content = null
+
     if(loading) {
-        return (
-            <Dialog onClose={dialogClose} open={isOpen}>
+        content = (
+            <Box m={3}>
                 <Typography align="center">Uploading Tracking...</Typography>
                 <LinearProgress />
-            </Dialog>
+            </Box>
         )
     }
 
     if(error) {
         console.log(error)
-        return (
-            <Dialog onClose={dialogClose} open={isOpen}>
-                <Alert icon={<Icon>error</Icon>} severity="success">An error has occure when trying to upload(more info in the log)</Alert>
-            </Dialog>
-        )
+        content = <Alert severity="error">An error has occure when trying to upload</Alert>
     }
 
-    return (
-        <Dialog onClose={dialogClose} open={isOpen}>
-            <MuiDialogTitle disableTypography>
-                <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
-                    <Typography variant="h6"> Share Tracking With Others </Typography>
-                    <Link underline="none" onClick={dialogClose}>
-                        <Icon> close </Icon>
-                    </Link>
-                </Box>
-            </MuiDialogTitle>
-            <MuiDialogContent dividers>
+    if(!loading && !error) {
+        content = (
+            <>
                 <Box display="flex" flexDirection="column" alignItems="center">
                     <Box m={2}>
                         <QRCode size={256} value={link} onDoubleClick={openInNewTab} />
                     </Box>
                     <TextField
+                        classes={{root: classes.inputLinkMore}}
                         disabled
                         label="link"
                         placeholder=""
@@ -141,6 +139,24 @@ export default function  ShareTrackingLinkDialog({isOpen, setOpen, record} :  Sh
                     }
                     autoHideDuration={4000}
                 />
+            </>
+        )
+    }
+
+    return (
+        <Dialog onClose={dialogClose} open={isOpen}>
+            <MuiDialogTitle disableTypography>
+                <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
+                    <Typography variant="h6"> Share Tracking With Others </Typography>
+                    &nbsp;
+                    &nbsp;
+                    <Link underline="none" onClick={dialogClose}>
+                        <Icon> close </Icon>
+                    </Link>
+                </Box>
+            </MuiDialogTitle>
+            <MuiDialogContent dividers>
+                { content }
             </MuiDialogContent>
         </Dialog>
     )

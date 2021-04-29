@@ -18,6 +18,13 @@ const useStyles =  makeStyles((theme: Theme) => createStyles({
     buttonNoCaps: {
         textTransform: "none",
         margin: "5px"
+    },
+    inputLinkMore: {
+        '& input': {
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis"
+        }
     }
   }),
 )
@@ -62,6 +69,8 @@ export default function MobileConnectionSettingDialog({isOpen, setOpen, code, re
             <MuiDialogTitle disableTypography>
                 <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
                     <Typography variant="h6"> Connect To Remote Device </Typography>
+                    &nbsp;
+                    &nbsp;
                     <Link underline="none" onClick={dialogClose}>
                         <Icon> close </Icon>
                     </Link>
@@ -73,6 +82,7 @@ export default function MobileConnectionSettingDialog({isOpen, setOpen, code, re
                         <QRCode size={256} value={link} onDoubleClick={openInNewTab} />
                     </Box>
                     <TextField
+                        classes={{root: classes.inputLinkMore}}
                         disabled
                         label="code"
                         placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
