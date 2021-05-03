@@ -11,10 +11,12 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { createStyles, makeStyles } from "@material-ui/styles"
 import { Theme } from "@material-ui/core"
-import GPS from "../services/GPSGeolocation"
-import Position, { GeolocationPositionToPosition } from "../models/Position"
+import Position from "../models/Position"
 import { useHistory } from "react-router-dom"
 import Globe from "../components/Globe"
+import { ConnectionStatus, selectWatchedPosition, startWatchingPosition, stopWatchingPosition } from "../state/WatchPositionSlice"
+import { useAppDispatch, useAppSelector } from "../state/hooks"
+import services, { GeolocationTypes } from "../services"
 
 const useStyles =  makeStyles((theme: Theme) => createStyles({
     retryButton: {
@@ -29,13 +31,15 @@ const useStyles =  makeStyles((theme: Theme) => createStyles({
 export default function Mobile() {
     const classes = useStyles()
 
-    const [askForGpsAccess, setAskForGpsAccess] = useState(0)
-    const [hasGpsAccess, setHasGpsAccess] = useState<Boolean | undefined>(undefined)
     const [isConnecting, setIsConnecting] = useState(false)
     const [error, setError] = useState<string | undefined>(undefined)
-    const [currentPosition, setCurrentPosition] = useState<Position | undefined>(undefined)
     const [updatePositionCallback, setUpdatePositionCallback] = useState<undefined | ((position: Position) => void)>(undefined)
+    
     const [keyInput, setKeyInput] = useState("")
+    
+    const [askForGpsAccess, setAskForGpsAccess] = useState(0)
+    const [currentPosition, status] = useAppSelector(selectWatchedPosition)
+    const dispatch = useAppDispatch()
 
     const history = useHistory()
 
@@ -43,7 +47,7 @@ export default function Mobile() {
     const key = queryString.parse(window.location.search).key as string
 
     useEffect(() => {
-        if(hasGpsAccess) {
+        if(status === ConnectionStatus.active) {
             const socket = MobileSocket()
             // listeners
             const error = (error: string | Error) => {
@@ -73,24 +77,20 @@ export default function Mobile() {
                 socket.Disconnect()
             }
         }
-    }, [hasGpsAccess, key])
+    }, [status, key])
+
+    useEffect(() => {
+        services.config(GeolocationTypes.GPS)
+    }, [])
 
     useEffect(() => {
         if(key) {
-            const successCallback = (position: GeolocationPosition) => {
-                setHasGpsAccess(true)
-                setCurrentPosition(GeolocationPositionToPosition(position))
-            }
-            const errorCallback = () => {
-                setHasGpsAccess(false)
-                setCurrentPosition(undefined)
-            }
-            const listener = GPS.watchPosition(successCallback, errorCallback)
+            dispatch(startWatchingPosition())
             return () => {
-                GPS.clearWatch(listener)
+                dispatch(stopWatchingPosition())
             }
         }
-    }, [askForGpsAccess, key])
+    }, [dispatch, askForGpsAccess, key])
 
     useEffect(() => {
         if(currentPosition && updatePositionCallback) {
@@ -137,16 +137,15 @@ export default function Mobile() {
 
     const onRequestGpsAccess = () => {
         setAskForGpsAccess(askForGpsAccess+1)
-        setHasGpsAccess(undefined)
     }
 
     let message = undefined
 
-    if(hasGpsAccess === undefined) {
+    if(status === ConnectionStatus.asking_permisision) {
         message = <Alert icon={<Icon>login</Icon>} severity="info">Requesting GPS access permisision</Alert>
     }
 
-    else if(hasGpsAccess === false) {
+    else if(status !== ConnectionStatus.active) {
         message = (
             <Alert severity="error">
                 GPS access permisision denied

@@ -75,7 +75,12 @@ export const startWatchingPosition = createAsyncThunk(
     let state = { ...selectSlice(getState() as RootState) }
     if(state.status !== ConnectionStatus.active) {
       state.status = ConnectionStatus.asking_permisision
-      state.watch_id = servies.geolocation.watchPosition(callbackPositionWatcherUpdate(dispatch), callbackPositionWatcherError(dispatch))
+      // require high accuracy
+      const options = {
+        enableHighAccuracy: true,
+        maximumAge: 0
+      }
+      state.watch_id = servies.geolocation.watchPosition(callbackPositionWatcherUpdate(dispatch), callbackPositionWatcherError(dispatch), options)
     }
     return state
   }

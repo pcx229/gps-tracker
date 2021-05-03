@@ -47,14 +47,9 @@ const useStyles =  makeStyles((theme: Theme) => createStyles({
         backgroundSize: 'auto 120%',
         animation: '$move-map 7s infinite linear'
     },
-    '@global': {
-        "@keyframes move-map": {
-        "0%": {
-            backgroundPosition: '0 0'
-        },
+    "@keyframes move-map": {
         "100%": {
-            backgroundPosition: '482px 0'
-        }
+            backgroundPosition: '171.5% 0'
         }
     },
     credit: {
@@ -65,7 +60,8 @@ const useStyles =  makeStyles((theme: Theme) => createStyles({
         marginTop: '50px',
         display: 'block',
         position: 'absolute',
-        bottom: '0'
+        bottom: '0',
+        color: 'lightgrey'
     },
     satellite: {
         width: 'inherit',
@@ -81,15 +77,6 @@ const useStyles =  makeStyles((theme: Theme) => createStyles({
             height: '201px',
             top: '32px',
             left: '49px'
-        },
-        ball: {
-            '@global': {
-                "@keyframes move-map": {
-                    "100%": {
-                        backgroundPosition: '482px 0'
-                    }
-                }
-            }
         }
     },
     '@media screen and (min-width: 600px)': {
@@ -102,15 +89,6 @@ const useStyles =  makeStyles((theme: Theme) => createStyles({
             height: '268px',
             top: '42px',
             left: '66px'
-        },
-        ball: {
-            '@global': {
-                "@keyframes move-map": {
-                    "100%": {
-                        backgroundPosition: '643px 0'
-                    }
-                }
-            }
         }
     }
   }),
