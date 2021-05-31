@@ -1,15 +1,40 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Share Tracking Service",
+        "title": "Tracking Service",
         "version": "1.0.0",
         "contact": {},
         "description": "share a tracking data with others, no authentication needed.\nthe data is represented by its hash, and will be kept only for 7 days."
     },
     "paths": {
+		"/mobile-location": {
+            "get": {
+                "summary": "a socket-io server for gps mobile connect service",
+				"tags": ["GPS Mobile Connect Service"],
+                "description": "this service is used for creating live connection with mobile gps device.\n protocol is as follows:\n on connection the device 'role' is expected either 'recorder' or 'mobile'.\n role 'recorder':\n can only request to 'join' a room, in that case he will recive its room id in a 'code' message so he could share it with a mobile device.\n after joining a room he can listen to 'status' messages where he will recive a messages incicating if a moblie decive is connected or not(msg: mobile is/not connected).\n when a device is connected he can expect 'position' messages with the moblie gps coordinates.\n should listen on 'error' if anything go wrong in the process.\n role 'mobile':\n can 'join' a room with a code that was givin to the 'recorder', if successful he will be notified with a 'connected' message.\n after that he can send 'position' messages with its gps coordinates that will be sent to the 'recorder'.\n should listen on 'error' if anything go wrong in the process.\n",
+                "parameters": [
+					{
+						"name": "role",
+						"in": "query",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "either 'recorder' or 'moblie' based on what type of connection the user wants"
+					}
+				],
+                "operationId": "MobileGpsTracking",
+                "responses": {
+                    "200": {
+                        "description": "connected to service"
+                    }
+                }
+            }
+        },
         "/share-tracking/all": {
             "get": {
-                "summary": "show all tracking records",
+                "summary": "show all tracking",
+				"tags": ["Tracking"],
                 "description": "",
                 "parameters": [],
                 "operationId": "ShowAlllTracking",
@@ -32,7 +57,8 @@
         },
         "/share-tracking": {
             "get": {
-                "summary": "add a tracking",
+                "summary": "get a tracking",
+				"tags": ["Tracking"],
                 "description": "",
                 "parameters": [
                     {
@@ -65,9 +91,10 @@
             },
             "post": {
                 "summary": "save a tracking",
+				"tags": ["Tracking"],
                 "description": "",
                 "parameters": [],
-                "operationId": "PostTracking",
+                "operationId": "SaveTracking",
                 "responses": {
                     "200": {
                         "description": "Default response",
@@ -93,6 +120,32 @@
                         }
                     }
                 }
+            },
+            "delete": {
+                "summary": "delete a tracking",
+				"tags": ["Tracking"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "hash",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Hash"
+                        },
+                        "description": ""
+                    }
+                ],
+                "operationId": "DeleteTracking",
+                "responses": {
+                    "200": {
+                        "description": "tracking was deleted successfully"
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                },
+                "callbacks": {}
             }
         }
     },

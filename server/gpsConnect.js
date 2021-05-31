@@ -1,15 +1,4 @@
-const fs = require('fs');
-const httpsServer = require("https").createServer({
-    key: fs.readFileSync('./ssl/key.pem'),
-    cert: fs.readFileSync('./ssl/cert.pem')
-})
-const port = 3005
-const io = require("socket.io")(httpsServer, {
-    path: "/mobile-location",
-    cors: {
-        origin: '*'
-    }
-})
+
 const roomsStore = require("./rooms")
 
 const DEVICE_RECORDER = "recorder", 
@@ -110,18 +99,17 @@ function mobile(socket) {
     })
 }
 
-io.on("connection", (socket) => {
-    const { role } = socket.handshake.query
-    switch(role) {
-        case DEVICE_RECORDER:
-            recorder(socket)
-            break
-        case DEVICE_MOBILE:
-            mobile(socket)
-            break
-    }
-})
+module.exports = (io) => {
 
-httpsServer.listen(port, () => {
-    console.log(`listening on port ${port}`)
-});
+	io.on("connection", (socket) => {
+		const { role } = socket.handshake.query
+		switch(role) {
+			case DEVICE_RECORDER:
+				recorder(socket)
+				break
+			case DEVICE_MOBILE:
+				mobile(socket)
+				break
+		}
+	})
+}
