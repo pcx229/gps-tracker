@@ -23,8 +23,9 @@ export default function ChangePosition({center, zoom, options, fly = true, once}
         if(center) {
             if(fly) {
                 map.flyTo(center, zoom, options)
-            }
-            map.setView(center, zoom, options)
+            } else {
+				map.setView(center, zoom, options)
+			}
         }
         setInitilized(true)
     }, [map, center, zoom, options, fly, once, initilized])
