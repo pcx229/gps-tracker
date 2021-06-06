@@ -27,19 +27,25 @@ export default function SelectModeFooter({mode} : SelectModeFooterProps) {
             <Box>
                 Mode &nbsp;
 				<Tooltip title="Use Random Path Generator">
-					<IconButton aria-label="test" size="small" disabled={mode === DEVICE_MODE.TEST} onClick={() => goToMode(DEVICE_MODE.TEST)}>
-						<Icon>shuffle</Icon>
-					</IconButton>
+					<span>
+						<IconButton aria-label="test" size="small" disabled={mode === DEVICE_MODE.TEST} onClick={() => goToMode(DEVICE_MODE.TEST)}>
+							<Icon>shuffle</Icon>
+						</IconButton>
+					</span>
 				</Tooltip>
 				<Tooltip title="Use Browser Geolocation">
-					<IconButton aria-label="gps" size="small" disabled={mode === DEVICE_MODE.GPS} onClick={() => goToMode(DEVICE_MODE.GPS)}>
-						<Icon>gps_fixed</Icon>
-					</IconButton>
+					<span>
+						<IconButton aria-label="gps" size="small" disabled={mode === DEVICE_MODE.GPS} onClick={() => goToMode(DEVICE_MODE.GPS)}>
+							<Icon>gps_fixed</Icon>
+						</IconButton>
+					</span>
 				</Tooltip>
 				<Tooltip title="Use Remote Device">
-					<IconButton aria-label="mobile" size="small" disabled={mode === DEVICE_MODE.MOBILE} onClick={() => goToMode(DEVICE_MODE.MOBILE)}>
-						<Icon>smartphone</Icon>
-					</IconButton>
+					<span>
+						<IconButton aria-label="mobile" size="small" disabled={mode === DEVICE_MODE.MOBILE} onClick={() => goToMode(DEVICE_MODE.MOBILE)}>
+							<Icon>smartphone</Icon>
+						</IconButton>
+					</span>
 				</Tooltip>
             </Box>
             <Box>

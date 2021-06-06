@@ -40,4 +40,4 @@ cd client; npm start
 
 ### ScreenShot
 
-![tracking app](https://www.github.com/pcx229/gps-tracker/tree/master/screenshot.gif)
+![tracking app](https://raw.githubusercontent.com/pcx229/gps-tracker/tree/master/screenshot.gif)

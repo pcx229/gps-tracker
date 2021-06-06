@@ -37,7 +37,7 @@ export default function LiveMetricsStatus({speed, distance, time, compassDirecti
       distance = 0
     let distanceContainer = undefined, distanceString = String(distance/1000)
     if(distance < 1000) {
-        distanceString = distanceString.substr(1, 4)
+        distanceString = distanceString.substr(0, 4)
     } else if(distance < 100000) {
         distanceString = distanceString.substr(0, 4)
     } else if(distance <= 999000) {

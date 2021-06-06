@@ -33,7 +33,7 @@ export default function useTimer() : number | undefined {
                 watchId = undefined
             }
         }
-    }, [travel])
+    }, [travel.startTime, travel.endTime])
     
     return time
 }
