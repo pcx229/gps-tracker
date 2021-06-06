@@ -1,4 +1,4 @@
-import  {Typography, Icon, List, IconButton, Avatar, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction, Container, LinearProgress, Box } from "@material-ui/core"
+import  {Typography, Icon, List, IconButton, Avatar, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction, Container, LinearProgress, Box, Tooltip } from "@material-ui/core"
 import { removeFromHistory, selectHistory } from "../state/HistorySlice"
 import { useAppDispatch, useAppSelector } from "../state/hooks"
 import Alert from '@material-ui/lab/Alert'
@@ -66,15 +66,21 @@ export default function HistoryList() {
                                     secondary={TimeParserString(ParseTime(analitics.time))}
                                 />
                                 <ListItemSecondaryAction>
-                                    <IconButton edge="end" aria-label="share" onClick={() => shareItem(record)}>
-                                        <Icon>share</Icon>
-                                    </IconButton>
-                                    <IconButton edge="end" aria-label="export to csv" onClick={() => exportItem(record)}>
-                                        <Icon>get_app</Icon>
-                                    </IconButton>
-                                    <IconButton edge="end" aria-label="delete" onClick={() => deleteItem(record)}>
-                                        <Icon>delete</Icon>
-                                    </IconButton>
+									<Tooltip title="Share"> 
+										<IconButton edge="end" aria-label="share" onClick={() => shareItem(record)}>
+											<Icon>share</Icon>
+										</IconButton>
+									</Tooltip>
+									<Tooltip title="Download Path As CSV File"> 
+										<IconButton edge="end" aria-label="export to csv" onClick={() => exportItem(record)}>
+											<Icon>get_app</Icon>
+										</IconButton>
+									</Tooltip>
+									<Tooltip title="Delete"> 
+										<IconButton edge="end" aria-label="delete" onClick={() => deleteItem(record)}>
+											<Icon>delete</Icon>
+										</IconButton>
+									</Tooltip>
                                 </ListItemSecondaryAction>
                             </ListItem>
                         )
