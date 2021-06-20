@@ -20,11 +20,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install -g heroku
-      - run: export HEROKU_API_KEY=
+      - run: npm install -g heroku 
       - run: |
           printf "machine api.heroku.com\n  login ${{secrets.HEROKU_EMAIL}}\n  password ${{secrets.HEROKU_API_KEY}}\nmachine git.heroku.com\n  login ${{secrets.HEROKU_EMAIL}}\n  password ${{secrets.HEROKU_API_KEY}}" | cat > ~/.netrc
       - run: heroku login
+      - run: heroku config:set --app ${{secrets.HEROKU_APP_NAME}} MONGO_URL=${{secrets.DB_CONNECTION_STRING}}
       - run: heroku container:login
       - run: heroku container:push web --app ${{secrets.HEROKU_APP_NAME}} --arg APP_BUILD_SERVER_URL="${{secrets.APP_URL}}"
       - run: heroku container:release web --app ${{secrets.HEROKU_APP_NAME}}
