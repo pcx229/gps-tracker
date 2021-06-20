@@ -1,0 +1,23 @@
+name: Deploy to heroku
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    name: Builde and deploy to heroku
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build, Push and Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          usedocker: true
+          docker_build_args: APP_BUILD_SERVER_URL
+        env:
+          HD_MONGO_URL: ${{secrets.DB_CONNECTION_STRING}}
+          APP_BUILD_SERVER_URL: ${{secrets.APP_URL}}
