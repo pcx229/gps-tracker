@@ -24,8 +24,6 @@ go to `/client/.env` file and change the values of the following variables:
 
 #### Https  
 
-you may want to create your own ssl keys to use in your setup if you are thinking on publishing it.  
-you can generate a key using this script on linux with openssl installed `./server/ssl/commands.sh`  
 **https** is required on some browsers if access to Geolocation is needed.  
 
 ### Running
