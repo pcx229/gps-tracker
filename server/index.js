@@ -96,6 +96,13 @@ async function remove_expired_saved_tracking() {
 }
 remove_expired_saved_tracking()
 
+// react app
+if(process.env.NODE_ENV === 'production') {
+	app.use('/*', (req, res, next) => {
+		return res.sendFile(path.join(__dirname, 'public/index.html'))
+	})
+}
+
 httpServer.listen(port, () => {
     console.log(`listening on port ${port}`)
 });
