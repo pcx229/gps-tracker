@@ -18,6 +18,7 @@ jobs:
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
           usedocker: true
           docker_build_args: APP_BUILD_SERVER_URL
+          dontuseforce: 1
         env:
           HD_MONGO_URL: ${{secrets.DB_CONNECTION_STRING}}
           APP_BUILD_SERVER_URL: ${{secrets.APP_URL}}
