@@ -4,18 +4,9 @@ const app = express()
 const port = process.env.PORT || 3004
 
 // server
-const fs = require('fs');
 var path = require('path')
-var httpServer
-if(process.env.NODE_ENV === "production") {
-	httpServer = require('http').createServer(app)
-	app.use(express.static(path.join(__dirname, 'public')))
-} else {
-	httpServer = require("https").createServer({
-		key: fs.readFileSync('./ssl/key.pem'),
-		cert: fs.readFileSync('./ssl/cert.pem')
-	}, app)
-}
+var httpServer = require('http').createServer(app)
+app.use(express.static(path.join(__dirname, 'public')))
 
 // documentation
 const swaggerUi = require('swagger-ui-express')
