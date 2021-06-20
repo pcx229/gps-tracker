@@ -24,5 +24,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         
     - run: npm install -g heroku
-    - run: export HEROKU_API_KEY=f7c57c71-35d7-4b86-a4fe-ef89855fcddb
+    - run: export HEROKU_API_KEY=${{secrets.HEROKU_API_KEY}}
     - run: heroku -v
+    - run: ls
