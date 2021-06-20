@@ -1,7 +1,7 @@
 // express
 const express = require('express')
 const app = express()
-const port = 3004
+const port = process.env.PORT || 3004
 
 // server
 const fs = require('fs');
@@ -17,7 +17,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 // database
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/gps_tracking', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/gps_tracking', {useNewUrlParser: true, useUnifiedTopology: true})
 const Share = require('./shareSchema')
 
 // tools
