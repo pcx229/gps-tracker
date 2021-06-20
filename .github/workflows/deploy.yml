@@ -10,6 +10,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       
+      - run: git fetch --prune --unshallow
+        
+      - name: Deploying to Heroku
+        env:
+          TOKEN: ${{ secrets.HEROKU_API_KEY }}
+          APP: ${{ secrets.HEROKU_APP_NAME }}
+        run: |
+          git remote add heroku https://heroku:$TOKEN@git.heroku.com/$APP.git
+          git push heroku HEAD:master -f
+          
       - name: Build, Push and Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
