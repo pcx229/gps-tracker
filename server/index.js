@@ -5,10 +5,17 @@ const port = process.env.PORT || 3004
 
 // server
 const fs = require('fs');
-const httpsServer = require("https").createServer({
-    key: fs.readFileSync('./ssl/key.pem'),
-    cert: fs.readFileSync('./ssl/cert.pem')
-}, app)
+var path = require('path')
+var httpServer
+if(process.env.NODE_ENV === "production") {
+	httpServer = require('http').createServer(app)
+	app.use(express.static(path.join(__dirname, 'public')))
+} else {
+	httpServer = require("https").createServer({
+		key: fs.readFileSync('./ssl/key.pem'),
+		cert: fs.readFileSync('./ssl/cert.pem')
+	}, app)
+}
 
 // documentation
 const swaggerUi = require('swagger-ui-express')
@@ -27,7 +34,7 @@ app.use(cors())
 app.use(express.json());
 
 // gps connect socket server
-const io = require("socket.io")(httpsServer, {
+const io = require("socket.io")(httpServer, {
 	path: "/mobile-location",
 	cors: {
 		origin: '*'
@@ -98,6 +105,6 @@ async function remove_expired_saved_tracking() {
 }
 remove_expired_saved_tracking()
 
-httpsServer.listen(port, () => {
+httpServer.listen(port, () => {
     console.log(`listening on port ${port}`)
 });
