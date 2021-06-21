@@ -76,7 +76,7 @@ export default function StartTrackingControl({startTracker} : StartTrackingContr
         startTracker()
       } else {
         if(!attemptToStartTracking) {
-          dispatch(startWatchingPosition())
+          dispatch<any>(startWatchingPosition())
           setAttemptToStartTracking(true)
           setAttemptToGetPermisisionToUseGPS(true)
         }
@@ -85,11 +85,11 @@ export default function StartTrackingControl({startTracker} : StartTrackingContr
 
     const clickFindLocation = () => {
       if(watchingStatus === ConnectionStatus.active) {
-        dispatch(stopWatchingPosition())
+        dispatch<any>(stopWatchingPosition())
       } else {
         if(!attemptToGetPermisisionToUseGPS) {
           setAttemptToGetPermisisionToUseGPS(true)
-          dispatch(startWatchingPosition())
+          dispatch<any>(startWatchingPosition())
         }
       }
     }

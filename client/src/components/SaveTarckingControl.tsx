@@ -64,13 +64,13 @@ export default function SaveTrackingControl({resetTracker} : SaveTrackingControl
     avgSpeed = Math.floor(avgSpeed)
 
     const clickSaveTracking = () => {
-      dispatch(tagTravel(activity || "unknown"))
-      dispatch(saveTravel())
+      dispatch<any>(tagTravel(activity || "unknown"))
+      dispatch<any>(saveTravel())
     }
 
     useEffect(() => {
       if(travel.isSaved) {
-        dispatch(addToHistory({
+        dispatch<any>(addToHistory({
           startTime: travel.startTime!,
           endTime: travel.endTime!,
           path: travel.path,

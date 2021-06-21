@@ -25,7 +25,7 @@ export default function HistoryList() {
     const history = useHistory()
 
     const deleteItem = (record: Record) => {
-        dispatch(removeFromHistory(String(record.startTime)))
+        dispatch<any>(removeFromHistory(String(record.startTime)))
     }
 
     const shareItem = (record: Record) => {

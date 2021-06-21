@@ -50,7 +50,7 @@ const updateWatchingPositionStatus : AsyncThunk<WatchingPositionState, Connectio
 )
 
 const callbackPositionWatcherUpdate = (dispatch: AppDispatch) => (position : GeolocationPosition) : void => {
-  dispatch(updateCurrentWatchingPosition(GeolocationPositionToPosition(position)))
+  dispatch<any>(updateCurrentWatchingPosition(GeolocationPositionToPosition(position)))
 }
 
 const callbackPositionWatcherError = (dispatch: AppDispatch) => (error : GeolocationPositionError) : void => {
@@ -66,7 +66,7 @@ const callbackPositionWatcherError = (dispatch: AppDispatch) => (error : Geoloca
       status = ConnectionStatus.timeout
       break;
   }
-  dispatch(updateWatchingPositionStatus(status))
+  dispatch<any>(updateWatchingPositionStatus(status))
 }
 
 export const startWatchingPosition = createAsyncThunk(

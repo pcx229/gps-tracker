@@ -25,21 +25,21 @@ export default function usePositionTracker() : Tracker {
 
     useEffect(() => {
         if(isTracking && travel.startTime && currentWatchingPosition)
-            dispatch(addTravel(currentWatchingPosition))
+            dispatch<any>(addTravel(currentWatchingPosition))
     }, [dispatch, isTracking, travel.startTime, currentWatchingPosition])
 
     return {
         startTracker: () => {
-            dispatch(startTravel())
+            dispatch<any>(startTravel())
             setIsTracking(true)
         },
         stopTracker: () => {
             setIsTracking(false)
-            dispatch(endTravel())
+            dispatch<any>(endTravel())
         },
         resetTracker: () => {
             setIsTracking(false)
-            dispatch(resetTravel())
+            dispatch<any>(resetTravel())
         },
         isTracking: isTracking,
         hasTrack : travel.startTime !== undefined && travel.endTime !== undefined

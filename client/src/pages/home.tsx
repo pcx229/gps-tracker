@@ -42,7 +42,7 @@ export default function Home() {
   }, [mode])
   
   useEffect(() => {
-    dispatch(fetchAllHistory())
+    dispatch<any>(fetchAllHistory())
   }, [dispatch])
 
   let control = undefined

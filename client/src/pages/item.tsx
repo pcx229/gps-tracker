@@ -39,9 +39,9 @@ export default function Item() {
 
     useEffect(() => {
         if(id) 
-            dispatch(fetchFromHistory(id))
+            dispatch<any>(fetchFromHistory(id))
         else if(hash)
-            dispatch(fetchFromShare(hash))
+            dispatch<any>(fetchFromShare(hash))
     }, [dispatch, id, hash])
     
     useEffect(() => {

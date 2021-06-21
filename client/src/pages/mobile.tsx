@@ -85,9 +85,9 @@ export default function Mobile() {
 
     useEffect(() => {
         if(key) {
-            dispatch(startWatchingPosition())
+            dispatch<any>(startWatchingPosition())
             return () => {
-                dispatch(stopWatchingPosition())
+                dispatch<any>(stopWatchingPosition())
             }
         }
     }, [dispatch, askForGpsAccess, key])
