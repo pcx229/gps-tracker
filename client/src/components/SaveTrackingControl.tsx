@@ -1,13 +1,15 @@
-import { Fab, Grid, Icon } from "@material-ui/core";
+import { Fab, Grid, Icon } from "@material-ui/core"
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import useDistance from "../hooks/DistanceHook";
-import useTimer from "../hooks/useTimer";
-import { addToHistory } from "../state/HistorySlice";
-import { useAppDispatch } from "../state/hooks";
-import { saveTravel, selectTravel, tagTravel } from "../state/TravelSlice";
-import ResultMetrics from "./ResultMetrics";
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import useDistance from "../hooks/DistanceHook"
+import useTimer from "../hooks/useTimer"
+import { addToHistory } from "../state/HistorySlice"
+import { useAppDispatch } from "../state/hooks"
+import { saveTravel, selectTravel, tagTravel } from "../state/TravelSlice"
+import ResultMetrics from "./ResultMetrics"
+import Alert from '@material-ui/lab/Alert'
+import { Box } from '@material-ui/core'
 
 const useStyles =  makeStyles((theme: Theme) => createStyles({
     saveRecordButton: {
@@ -19,7 +21,8 @@ const useStyles =  makeStyles((theme: Theme) => createStyles({
       },
       "&:disabled":{
           backgroundColor: theme.palette.success.light
-      }
+      },
+	  marginRight: "1em"
     },
     discardRecordButton: {
       textTransform: "none",
@@ -39,7 +42,7 @@ const useStyles =  makeStyles((theme: Theme) => createStyles({
       padding: theme.spacing(3)
     }
   }),
-);
+)
 
 interface SaveTrackingControlProps {
   resetTracker: () => void
@@ -47,7 +50,7 @@ interface SaveTrackingControlProps {
 
 export default function SaveTrackingControl({resetTracker} : SaveTrackingControlProps) {
 
-    const classes = useStyles();
+    const classes = useStyles()
 
     const dispatch = useAppDispatch()
 
@@ -86,7 +89,7 @@ export default function SaveTrackingControl({resetTracker} : SaveTrackingControl
     
     return (
       <>
-        <Grid className={classes.controllButtonsSpacer} container spacing={3} direction="row" justify="flex-start">
+        <Grid className={classes.controllButtonsSpacer} container direction="row" justify="flex-start">
           <Grid item>
             <Fab variant="extended" onClick={clickSaveTracking} className={classes.saveRecordButton}>
               <Icon className={classes.extendedButtonIcon}>done</Icon>
@@ -102,6 +105,12 @@ export default function SaveTrackingControl({resetTracker} : SaveTrackingControl
         </Grid>
 
         <ResultMetrics activity={activity} setActivity={setActivity} distance={distance} time={time} avgSpeed={avgSpeed} />
+			
+		<Box my={2}>
+			<Alert severity="info">
+				click the activity button pick yours, then if you will choose to save it it will be added to the history list down below
+			</Alert>
+		</Box>
       </>
     )
 }

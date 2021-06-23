@@ -1,9 +1,10 @@
-import { Box, Container, LinearProgress, Slider, TextField, Typography } from "@material-ui/core"
+import { Box, Container, Icon, IconButton, LinearProgress, Slider, TextField, Tooltip, Typography } from "@material-ui/core"
 import Alert from "@material-ui/lab/Alert"
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { useLocation, useParams } from "react-router"
+import { Link } from "react-router-dom"
 import LiveMetricsStatus from "../components/LiveMetricsStatus"
 import PathMarker, { PathColors, PathProgress } from "../components/PathMarker"
 import Path from "../models/Path"
@@ -139,6 +140,21 @@ export default function Item() {
     if(pathInRange) 
         return (
             <Container maxWidth="md" disableGutters={true}>
+
+				{
+					id ?
+						<Box my={2} display="flex" flexDirection="row">
+							<Tooltip title="go home">
+								<Link to="/">
+									<IconButton aria-label="location" size="medium">
+										<Icon>arrow_back</Icon>
+									</IconButton>
+								</Link>
+							</Tooltip>
+							<Typography variant="h4">&nbsp; &nbsp; Saved Item</Typography>
+						</Box>
+						: undefined
+				}
                 
                 <MapContainer center={new LatLng(WORLD_CENTER_VIEW_LOCATION.latitude, WORLD_CENTER_VIEW_LOCATION.longitude)} zoom={WORLD_CENTER_VIEW_LOCATION.zoom} style={{minHeight: "70vh"}} >
                     <TileLayer
@@ -150,7 +166,7 @@ export default function Item() {
                     <ChangePosition center={PositionToLatLang(path[0])} zoom={CLOSE_VIEW_ZOOM} fly={false} once />
                 </MapContainer>
 
-                <Box m={2}>
+                <Box p={3}>
                     <Box>
                         <Typography>Distance</Typography>
                         <Box display="flex" alignItems="end" flexDirection="row" justifyContent="start">
@@ -204,8 +220,9 @@ export default function Item() {
                     </Box>
                 </Box>
 
-                <LiveMetricsStatus speed={speed} distance={distance} time={time} compassDirection={compass?.direction} compassAngle={compass?.greatCircleBearing} />
-                
+                <Box py={2}>
+                	<LiveMetricsStatus speed={speed} distance={distance} time={time} compassDirection={compass?.direction} compassAngle={compass?.greatCircleBearing} />
+                </Box>
             </Container>
         )
     

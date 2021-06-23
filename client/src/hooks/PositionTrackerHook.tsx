@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { selectWatchedPosition } from "../state/WatchPositionSlice";
 import { addTravel, endTravel, resetTravel, selectTravel, startTravel } from "../state/TravelSlice";
@@ -21,6 +21,30 @@ export default function usePositionTracker() : Tracker {
 
     const dispatch = useAppDispatch()
 
+	const resetTracker = useCallback(
+		() => {
+            setIsTracking(false)
+            dispatch<any>(resetTravel())
+		},
+		[dispatch]
+	)
+
+	const startTracker = useCallback(
+		() => {
+            setIsTracking(true)
+            dispatch<any>(startTravel())
+		},
+		[dispatch]
+	)
+
+	const stopTracker = useCallback(
+		() => {
+            setIsTracking(false)
+            dispatch<any>(endTravel())
+		},
+		[dispatch]
+	)
+
     const [isTracking, setIsTracking] = useState(travel.startTime !== undefined)
 
     useEffect(() => {
@@ -29,18 +53,9 @@ export default function usePositionTracker() : Tracker {
     }, [dispatch, isTracking, travel.startTime, currentWatchingPosition])
 
     return {
-        startTracker: () => {
-            dispatch<any>(startTravel())
-            setIsTracking(true)
-        },
-        stopTracker: () => {
-            setIsTracking(false)
-            dispatch<any>(endTravel())
-        },
-        resetTracker: () => {
-            setIsTracking(false)
-            dispatch<any>(resetTravel())
-        },
+        startTracker,
+        stopTracker,
+        resetTracker,
         isTracking: isTracking,
         hasTrack : travel.startTime !== undefined && travel.endTime !== undefined
     }

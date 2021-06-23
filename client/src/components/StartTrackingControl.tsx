@@ -7,6 +7,7 @@ import Icon from '@material-ui/core/Icon'
 import clsx from 'clsx'
 import { useAppDispatch, useAppSelector } from '../state/hooks'
 import { ConnectionStatus, selectWatchedPosition, startWatchingPosition, stopWatchingPosition } from '../state/WatchPositionSlice'
+import Alert from '@material-ui/lab/Alert'
 
 const useStyles =  makeStyles((theme: Theme) => createStyles({
     startRecordButton: {
@@ -95,18 +96,24 @@ export default function StartTrackingControl({startTracker} : StartTrackingContr
     }
 
     return (
-        <Grid className={classes.controllButtonsSpacer} container spacing={3} direction="row" justify="space-between">
-          <Grid item>
-            <Fab variant="extended" onClick={clickStartTracking} className={classes.startRecordButton}>
-              <Icon className={classes.extendedButtonIcon}>play_circle</Icon>
-              Start Recording
-            </Fab>
-          </Grid>
-          <Grid item>
-            <IconButton aria-label="location" onClick={clickFindLocation} className={clsx((watchingStatus === ConnectionStatus.asking_permisision) && classes.locationIconWaitColor, (watchingStatus === ConnectionStatus.active) && classes.locationIconSuccessColor, (watchingStatus === ConnectionStatus.permisision_rejected) && classes.locationIconFailColor)}>
-              <Icon>my_location</Icon>
-            </IconButton>
-          </Grid>
-        </Grid>
+		<>
+			<Grid className={classes.controllButtonsSpacer} container direction="row" justify="space-between">
+				<Grid item>
+					<Fab variant="extended" onClick={clickStartTracking} className={classes.startRecordButton}>
+					<Icon className={classes.extendedButtonIcon}>play_circle</Icon>
+					Start Recording
+					</Fab>
+				</Grid>
+				<Grid item>
+					<IconButton aria-label="location" onClick={clickFindLocation} className={clsx((watchingStatus === ConnectionStatus.asking_permisision) && classes.locationIconWaitColor, (watchingStatus === ConnectionStatus.active) && classes.locationIconSuccessColor, (watchingStatus === ConnectionStatus.permisision_rejected) && classes.locationIconFailColor)}>
+					<Icon>my_location</Icon>
+					</IconButton>
+				</Grid>
+			</Grid>
+			
+			<Alert severity="info">
+				click the location button to see where you are, then to start tracking click on the play button
+			</Alert>
+		</>
       )
 }

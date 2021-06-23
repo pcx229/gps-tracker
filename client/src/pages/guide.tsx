@@ -1,13 +1,20 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Divider, Grid, Icon, Typography } from "@material-ui/core";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Container, Divider, Grid, Icon, IconButton, Tooltip, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-
 export default function Guide() {
+
 	return (
 		<Container maxWidth="md">
 			<Box my={5}>
-				<Box my={5}>
-					<Typography variant="h3">Guides</Typography>
+				<Box my={5} display="flex" flexDirection="row">
+					<Tooltip title="go home">
+						<Link to="/mobile">
+							<IconButton aria-label="location" size="medium">
+								<Icon>arrow_back</Icon>
+							</IconButton>
+						</Link>
+					</Tooltip>
+					<Typography variant="h3">&nbsp; &nbsp; Guides</Typography>
 				</Box>
 				<Accordion>
 					<AccordionSummary expandIcon={<Icon> expand_more </Icon>} >

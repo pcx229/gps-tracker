@@ -3,7 +3,7 @@ import usePositionTracker from '../hooks/PositionTrackerHook'
 import Container from '@material-ui/core/Container'
 import StartTrackingControl from '../components/StartTrackingControl'
 import StopTrackingControl from '../components/StopTrackingControl'
-import SaveTrackingSlide from '../components/SaveTarckingControl'
+import SaveTrackingSlide from '../components/SaveTrackingControl'
 import TrackingMapViewer from '../components/TrackingMap'
 import { fetchAllHistory } from '../state/HistorySlice'
 import { useAppDispatch } from '../state/hooks'
@@ -15,6 +15,7 @@ import DEVICE_MODE from '../utill/DeviceMode'
 import SelectModeFooter from '../components/SelectModeFooter'
 import PositionDeviceStatus from '../components/PositionDeviceStatus'
 import BorderLayout from '../components/BorderLayout'
+import { stopWatchingPosition } from '../state/WatchPositionSlice'
 
 export default function Home() {
 
@@ -26,6 +27,12 @@ export default function Home() {
   if(mode !== DEVICE_MODE.MOBILE && mode !== DEVICE_MODE.TEST) {
     mode = DEVICE_MODE.GPS
   }
+
+  useEffect(() => {
+    resetTracker()
+	dispatch<any>(stopWatchingPosition())
+    dispatch<any>(fetchAllHistory())
+  }, [dispatch, resetTracker])
 
   useEffect(() => {
     switch(mode) {
@@ -40,10 +47,6 @@ export default function Home() {
         break
     }
   }, [mode])
-  
-  useEffect(() => {
-    dispatch<any>(fetchAllHistory())
-  }, [dispatch])
 
   let control = undefined
   if(isTracking) {
@@ -56,18 +59,18 @@ export default function Home() {
 
   return (
     <div className="App">
-      <Container maxWidth="md" disableGutters={true}>
+      <Container maxWidth="md" disableGutters>
         <BorderLayout>
           <BorderLayout.Header>
-          <TrackingMapViewer style={{height: "70vh"}} isTracking={isTracking} hasTrack={hasTrack} /> { /*  */ }
+          	<TrackingMapViewer style={{height: "70vh"}} isTracking={isTracking} hasTrack={hasTrack} />
           </BorderLayout.Header>
           <BorderLayout.Body>
-            <PositionDeviceStatus mode={mode} />
-            {control}
-            <HistoryList />
+		  	<PositionDeviceStatus mode={mode} />
+            { control }
+          	<HistoryList />
           </BorderLayout.Body>
           <BorderLayout.Footer saperator>
-            <SelectModeFooter mode={mode} />
+		  	<SelectModeFooter mode={mode} />
           </BorderLayout.Footer>
         </BorderLayout>
       </Container>

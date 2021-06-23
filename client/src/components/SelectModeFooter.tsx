@@ -17,10 +17,6 @@ export default function SelectModeFooter({mode} : SelectModeFooterProps) {
       history.push({search: "mode=" + mode})
       history.go(0)
     }
-  
-    const openMobileConnect = () => {
-      window.open(process.env.REACT_APP_URL + "/mobile")
-    }
 
     return (
         <Box m={2} display="flex" flexDirection="row" justifyContent="space-between" width="95%">
@@ -36,7 +32,7 @@ export default function SelectModeFooter({mode} : SelectModeFooterProps) {
 				<Tooltip title="Use Browser Geolocation">
 					<span>
 						<IconButton aria-label="gps" size="small" disabled={mode === DEVICE_MODE.GPS} onClick={() => goToMode(DEVICE_MODE.GPS)}>
-							<Icon>gps_fixed</Icon>
+							<Icon>near_me</Icon>
 						</IconButton>
 					</span>
 				</Tooltip>
@@ -57,9 +53,11 @@ export default function SelectModeFooter({mode} : SelectModeFooterProps) {
 					</Link>
 				</Tooltip>
 				<Tooltip title="Connect To Remote Device">
-					<IconButton aria-label="gps" size="small" onClick={openMobileConnect}>
-						<Icon>podcasts</Icon>
-					</IconButton>
+					<Link to="/mobile">
+						<IconButton aria-label="gps" size="small">
+							<Icon>podcasts</Icon>
+						</IconButton>
+					</Link>
 				</Tooltip>
             </Box>
         </Box>

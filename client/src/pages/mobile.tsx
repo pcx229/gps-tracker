@@ -3,16 +3,16 @@ import { MobileSocket } from "../services/SocketGeolocation"
 import queryString from 'query-string'
 import Icon from '@material-ui/core/Icon'
 import Alert from '@material-ui/lab/Alert'
-import Link from '@material-ui/core/Link'
+import LinkUI from '@material-ui/core/Link'
 import Container from '@material-ui/core/Container'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { createStyles, makeStyles } from "@material-ui/styles"
-import { Theme } from "@material-ui/core"
+import { IconButton, Theme, Tooltip } from "@material-ui/core"
 import Position from "../models/Position"
-import { useHistory } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import Globe from "../components/Globe"
 import { ConnectionStatus, selectWatchedPosition, startWatchingPosition, stopWatchingPosition } from "../state/WatchPositionSlice"
 import { useAppDispatch, useAppSelector } from "../state/hooks"
@@ -29,6 +29,9 @@ const useStyles =  makeStyles((theme: Theme) => createStyles({
 )
 
 export default function Mobile() {
+
+    const history = useHistory()
+
     const classes = useStyles()
 
     const [isConnecting, setIsConnecting] = useState(false)
@@ -40,8 +43,6 @@ export default function Mobile() {
     const [askForGpsAccess, setAskForGpsAccess] = useState(0)
     const [currentPosition, status] = useAppSelector(selectWatchedPosition)
     const dispatch = useAppDispatch()
-
-    const history = useHistory()
 
     // room key from query string
     const key = queryString.parse(window.location.search).key as string
@@ -105,14 +106,21 @@ export default function Mobile() {
 
     if(!key) {
         return (
-            <Container maxWidth="xs"> 
-                <Box display="flex" flexDirection="column" alignItems="center">
-                    <Box py={2} m={3}>
-                        <Typography variant="h4" align="center">
-                            <Icon color="error">radio_button_checked</Icon> Connect to recorder
-                        </Typography>
-                    </Box>
-                    <Box p={1}>
+            <Container maxWidth="md"> 
+                <Box display="flex" flexDirection="column">
+					<Box py={3} display="flex" flexDirection="row">
+						<Tooltip title="go home">
+							<Link to="/">
+								<IconButton aria-label="location" size="medium">
+									<Icon>arrow_back</Icon>
+								</IconButton>
+							</Link>
+						</Tooltip>
+						<Typography variant="h4">
+							&nbsp; <Icon color="error">link</Icon> &nbsp; Connect to recorder
+						</Typography>
+					</Box>
+                    <Box p={1} py={2}>
                         <Typography variant="body2">
                             the recorder will use the GPS sensor on this device to obtain your exact location and to track your movements 
                         </Typography>
@@ -149,9 +157,9 @@ export default function Mobile() {
         message = (
             <Alert severity="error">
                 GPS access permisision denied
-                <Link href="#" className={classes.retryButton} onClick={onRequestGpsAccess}>
+                <LinkUI href="#" className={classes.retryButton} onClick={onRequestGpsAccess}>
                     RETRY
-                </Link>
+                </LinkUI>
             </Alert>
         )
     }

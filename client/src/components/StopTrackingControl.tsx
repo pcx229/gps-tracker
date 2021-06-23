@@ -55,7 +55,7 @@ export default function StopTrackingControl({stopTracker} : StopTrackingControlP
 
     return (
         <>
-          <Grid className={classes.controllButtonsSpacer} container spacing={3} direction="row" justify="space-between">
+          <Grid className={classes.controllButtonsSpacer} container direction="row" justify="space-between">
             <Grid item>
               <Fab variant="extended" onClick={clickStopTracking} className={classes.stopRecordButton}>
                 <Icon className={classes.extendedButtonIcon}>stop</Icon>
