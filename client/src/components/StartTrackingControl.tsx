@@ -112,7 +112,15 @@ export default function StartTrackingControl({startTracker} : StartTrackingContr
 			</Grid>
 			
 			<Alert severity="info">
-				click the location button to see where you are, then to start tracking click on the play button
+				<b>Recording:</b> click the location button to see where you are, then when you are ready click on the play button to start tracking your path.
+				<br />
+				<br />
+				<b>MODES:</b> you can pick the device you wish to retrieve your location from by selecting one of the options in the left corner of the page:
+				<ul>
+					<li>Random - is used for testing purposes, gives you a random path every time</li>
+					<li>GPS - location will be supplied by the current device Geolocation service, which is the sensor or estimation</li>
+					<li>Remote - givin a connection with a remote device, his location will be received here</li>
+				</ul>
 			</Alert>
 		</>
       )

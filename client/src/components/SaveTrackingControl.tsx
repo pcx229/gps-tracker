@@ -108,7 +108,7 @@ export default function SaveTrackingControl({resetTracker} : SaveTrackingControl
 			
 		<Box my={2}>
 			<Alert severity="info">
-				click the activity button pick yours, then if you will choose to save it it will be added to the history list down below
+				<b>Saving:</b> click the activity button pick yours, then if you will choose to save it it will be added to the history list down below.
 			</Alert>
 		</Box>
       </>

@@ -106,7 +106,7 @@ export default function Mobile() {
 
     if(!key) {
         return (
-            <Container maxWidth="md"> 
+            <Container maxWidth="sm"> 
                 <Box display="flex" flexDirection="column">
 					<Box py={3} display="flex" flexDirection="row">
 						<Tooltip title="go home">
@@ -116,9 +116,12 @@ export default function Mobile() {
 								</IconButton>
 							</Link>
 						</Tooltip>
-						<Typography variant="h4">
-							&nbsp; <Icon color="error">link</Icon> &nbsp; Connect to recorder
-						</Typography>
+						<Box display="black" textAlign="center" width="100%">
+							<Typography variant="h4" align="center" display="inline">
+								&nbsp; <Icon color="error">link</Icon> &nbsp; 
+								<Box display="inline-block">Connect to recorder </Box>
+							</Typography>
+						</Box>
 					</Box>
                     <Box p={1} py={2}>
                         <Typography variant="body2">
