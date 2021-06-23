@@ -8,7 +8,7 @@ export default function Guide() {
 			<Box my={5}>
 				<Box my={5} display="flex" flexDirection="row">
 					<Tooltip title="go home">
-						<Link to="/mobile">
+						<Link to="/">
 							<IconButton aria-label="location" size="medium">
 								<Icon>arrow_back</Icon>
 							</IconButton>
