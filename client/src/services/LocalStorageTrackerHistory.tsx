@@ -32,10 +32,12 @@ export default class LocalStorageTrackerHistory implements TrackerHistory {
     }
 
     async fetchAll(): Promise<Record[]> {
+		this.loadHistoryDataCallback()
         return this.history
     }
 
     async add(record: Record): Promise<void> {
+		this.loadHistoryDataCallback()
         this.history = [...this.history, record]
         this.saveHistoryDataCallback()
     }
@@ -45,7 +47,13 @@ export default class LocalStorageTrackerHistory implements TrackerHistory {
     }
 
     async remove(id: string): Promise<void> {
-        this.history = this.history.filter((record) => String(record.startTime) === id)
+		this.loadHistoryDataCallback()
+        const index = this.history.findIndex((record) => String(record.startTime) === id)
+		let temp = [...this.history]
+		if (index > -1) {
+			temp.splice(index, 1)
+		}
+		this.history = temp
         this.saveHistoryDataCallback()
     }
 

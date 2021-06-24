@@ -109,7 +109,7 @@ export default function Mobile() {
             <Container maxWidth="sm"> 
                 <Box display="flex" flexDirection="column">
 					<Box py={3} display="flex" flexDirection="row">
-						<Tooltip title="go home">
+						<Tooltip title="go back home">
 							<Link to="/">
 								<IconButton aria-label="location" size="medium">
 									<Icon>arrow_back</Icon>
@@ -182,8 +182,20 @@ export default function Mobile() {
     return (
         <Container maxWidth="md">
             {message}
+			<Alert icon={<Icon>help</Icon>} severity="info">
+				Did you meant to get here???
+				<br />
+				this site establish a connection with a remote device that wish to record your location.
+			</Alert>
             <Box m={2} display="flex" alignItems="center" justifyContent="center" flexDirection="column" height="75vh">
-                <Globe />
+				<Globe />
+				<Tooltip title="go back home">
+					<Link to="/">
+						<IconButton aria-label="location" size="medium">
+							<Icon>home</Icon>
+						</IconButton>
+					</Link>
+				</Tooltip>
             </Box>
         </Container>
     )

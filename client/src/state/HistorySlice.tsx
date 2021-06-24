@@ -35,7 +35,6 @@ export const addToHistory = createAsyncThunk(
         await services.trackerHistory.add(record)
         return record
     } catch(e) {
-      console.log("wtf is happening")
         return rejectWithValue(e.message)
     }
   }

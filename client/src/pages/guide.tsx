@@ -6,8 +6,8 @@ export default function Guide() {
 	return (
 		<Container maxWidth="md">
 			<Box my={5}>
-				<Box my={5} display="flex" flexDirection="row">
-					<Tooltip title="go home">
+				<Box my={5} display="flex" flexDirection="row" alignItems="center">
+					<Tooltip title="go back home">
 						<Link to="/">
 							<IconButton aria-label="location" size="medium">
 								<Icon>arrow_back</Icon>

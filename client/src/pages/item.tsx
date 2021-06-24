@@ -141,20 +141,16 @@ export default function Item() {
         return (
             <Container maxWidth="md" disableGutters={true}>
 
-				{
-					id ?
-						<Box my={2} display="flex" flexDirection="row">
-							<Tooltip title="go home">
-								<Link to="/">
-									<IconButton aria-label="location" size="medium">
-										<Icon>arrow_back</Icon>
-									</IconButton>
-								</Link>
-							</Tooltip>
-							<Typography variant="h4">&nbsp; &nbsp; Saved Item</Typography>
-						</Box>
-						: undefined
-				}
+				<Box my={2} display="flex" flexDirection="row" alignItems="center">
+					<Tooltip title="go back home">
+						<Link to="/">
+							<IconButton aria-label="location" size="medium">
+								<Icon>arrow_back</Icon>
+							</IconButton>
+						</Link>
+					</Tooltip>
+					<Typography variant="h5">&nbsp; &nbsp;  { id ? "Saved" : "Shared" } Item </Typography>
+				</Box>
                 
                 <MapContainer center={new LatLng(WORLD_CENTER_VIEW_LOCATION.latitude, WORLD_CENTER_VIEW_LOCATION.longitude)} zoom={WORLD_CENTER_VIEW_LOCATION.zoom} style={{minHeight: "70vh"}} >
                     <TileLayer
