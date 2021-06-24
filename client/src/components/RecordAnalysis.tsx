@@ -1,7 +1,7 @@
 import { convertDistance, convertSpeed, getPathLength, getPreciseDistance, getSpeed } from 'geolib'
 import { PositionToSpeedPositionFormat } from '../models/Position'
 import Record from '../models/Record'
-import { SpeedUnits, DistanceUnits } from '../utill/UnitMetrics'
+import { SpeedUnits, DistanceUnits } from '../util/UnitMetrics'
 
 interface RecordAnalysisData {
     avgSpeed: number,

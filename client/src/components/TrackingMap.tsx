@@ -5,7 +5,7 @@ import Position, { PositionToLatLang } from '../models/Position';
 import { useAppSelector } from '../state/hooks';
 import { selectTravel } from '../state/TravelSlice';
 import { ConnectionStatus, selectWatchedPosition } from '../state/WatchPositionSlice';
-import { CLOSE_VIEW_ZOOM, WORLD_CENTER_VIEW_LOCATION } from '../utill/MapsLocations';
+import { CLOSE_VIEW_ZOOM, WORLD_CENTER_VIEW_LOCATION } from '../util/MapsLocations';
 import ChangePosition from './ChangePosition';
 import ColoredMarker, { MarkerColor } from './ColoredMarker';
 import PathMarker, { PathProgress } from './PathMarker';

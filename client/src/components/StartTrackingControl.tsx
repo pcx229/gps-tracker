@@ -8,6 +8,7 @@ import clsx from 'clsx'
 import { useAppDispatch, useAppSelector } from '../state/hooks'
 import { ConnectionStatus, selectWatchedPosition, startWatchingPosition, stopWatchingPosition } from '../state/WatchPositionSlice'
 import Alert from '@material-ui/lab/Alert'
+import { CircularProgress } from '@material-ui/core'
 
 const useStyles =  makeStyles((theme: Theme) => createStyles({
     startRecordButton: {
@@ -18,11 +19,12 @@ const useStyles =  makeStyles((theme: Theme) => createStyles({
           backgroundColor: theme.palette.info.dark
       },
       "&:disabled":{
-          backgroundColor: theme.palette.info.light
+          backgroundColor: theme.palette.action.selected
       }
     },
     extendedButtonIcon: {
       marginRight: theme.spacing(1),
+	  color: "inherit"
     },
     controllButtonsSpacer: {
       padding: theme.spacing(3)
@@ -99,14 +101,27 @@ export default function StartTrackingControl({startTracker} : StartTrackingContr
 		<>
 			<Grid className={classes.controllButtonsSpacer} container direction="row" justify="space-between">
 				<Grid item>
-					<Fab variant="extended" onClick={clickStartTracking} className={classes.startRecordButton}>
-					<Icon className={classes.extendedButtonIcon}>play_circle</Icon>
-					Start Recording
-					</Fab>
+					{
+						watchingStatus === ConnectionStatus.asking_permisision ?
+							<Fab 
+								disabled
+								variant="extended" onClick={clickStartTracking} 
+								className={classes.startRecordButton}>
+								<CircularProgress size="1.5em" className={classes.extendedButtonIcon} />
+								Waiting For Connection
+							</Fab>
+							:
+							<Fab 
+								variant="extended" onClick={clickStartTracking} 
+								className={classes.startRecordButton}>
+								<Icon className={classes.extendedButtonIcon}>play_circle</Icon>
+								Start Recording
+							</Fab>
+					}
 				</Grid>
 				<Grid item>
 					<IconButton aria-label="location" onClick={clickFindLocation} className={clsx((watchingStatus === ConnectionStatus.asking_permisision) && classes.locationIconWaitColor, (watchingStatus === ConnectionStatus.active) && classes.locationIconSuccessColor, (watchingStatus === ConnectionStatus.permisision_rejected) && classes.locationIconFailColor)}>
-					<Icon>my_location</Icon>
+						<Icon>my_location</Icon>
 					</IconButton>
 				</Grid>
 			</Grid>

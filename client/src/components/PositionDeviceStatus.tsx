@@ -1,5 +1,5 @@
 
-import DEVICE_MODE from '../utill/DeviceMode'
+import DEVICE_MODE from '../util/DeviceMode'
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import Alert from '@material-ui/lab/Alert'

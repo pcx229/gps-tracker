@@ -24,7 +24,7 @@ const useStyles =  makeStyles((theme: Theme) => createStyles({
     extendedButtonIcon: {
       marginRight: theme.spacing(1),
     },
-    controllButtonsSpacer: {
+    controlButtonsSpacer: {
       padding: theme.spacing(3)
     },
     locationIconSuccessColor: {
@@ -55,7 +55,7 @@ export default function StopTrackingControl({stopTracker} : StopTrackingControlP
 
     return (
         <>
-          <Grid className={classes.controllButtonsSpacer} container direction="row" justify="space-between">
+          <Grid className={classes.controlButtonsSpacer} container direction="row" justify="space-between">
             <Grid item>
               <Fab variant="extended" onClick={clickStopTracking} className={classes.stopRecordButton}>
                 <Icon className={classes.extendedButtonIcon}>stop</Icon>

@@ -11,7 +11,7 @@ import { useEffect } from 'react'
 import HistoryList from '../components/HistoryList'
 import queryString from 'query-string'
 import services, { GeolocationTypes } from '../services'
-import DEVICE_MODE from '../utill/DeviceMode'
+import DEVICE_MODE from '../util/DeviceMode'
 import SelectModeFooter from '../components/SelectModeFooter'
 import PositionDeviceStatus from '../components/PositionDeviceStatus'
 import BorderLayout from '../components/BorderLayout'
@@ -29,12 +29,11 @@ export default function Home() {
   }
 
   useEffect(() => {
+	// clear any tracking that took place
     resetTracker()
+	// clear position watcher
 	dispatch<any>(stopWatchingPosition())
-    dispatch<any>(fetchAllHistory())
-  }, [dispatch, resetTracker])
-
-  useEffect(() => {
+	// select mode
     switch(mode) {
       case DEVICE_MODE.TEST:
         services.config(GeolocationTypes.TEST)
@@ -46,7 +45,9 @@ export default function Home() {
         services.config(GeolocationTypes.GPS)
         break
     }
-  }, [mode])
+	// fetch history items
+    dispatch<any>(fetchAllHistory())
+  }, [mode, dispatch, resetTracker])
 
   let control = undefined
   if(isTracking) {

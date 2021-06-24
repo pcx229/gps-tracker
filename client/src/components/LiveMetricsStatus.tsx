@@ -3,7 +3,7 @@ import { Box, Container, Paper, Typography } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import Speedometer from "react-d3-speedometer"
 import Compass from './Compass';
-import { ParseTime, TimeString } from '../utill/TimeParser';
+import { ParseTime, TimeString } from '../util/TimeParser';
 
 interface LiveMetricsStatusProps {
     speed?: number,

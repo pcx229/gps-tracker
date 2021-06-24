@@ -1,7 +1,7 @@
 import { Avatar, Box, Container, Grid, Icon, Paper, Typography } from "@material-ui/core"
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
-import { ParseTime, TimeParserString } from "../utill/TimeParser"
-import activity_icon from '../utill/ActivityIcon'
+import { ParseTime, TimeParserString } from "../util/TimeParser"
+import activity_icon from '../util/ActivityIcon'
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     resultContainer: {

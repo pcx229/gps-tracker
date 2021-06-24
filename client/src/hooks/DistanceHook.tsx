@@ -3,7 +3,7 @@ import { getPathLength, getPreciseDistance, convertDistance } from 'geolib'
 import { useEffect, useState } from "react"
 import { useAppSelector } from '../state/hooks'
 import { selectTravel } from '../state/TravelSlice'
-import { DistanceUnits } from '../utill/UnitMetrics'
+import { DistanceUnits } from '../util/UnitMetrics'
 
 // const { direction, rhumbLineBearing } = useDistance()
 

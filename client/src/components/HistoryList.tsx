@@ -2,14 +2,14 @@ import  {Typography, Icon, List, IconButton, Avatar, ListItem, ListItemAvatar, L
 import { removeFromHistory, selectHistory } from "../state/HistorySlice"
 import { useAppDispatch, useAppSelector } from "../state/hooks"
 import Alert from '@material-ui/lab/Alert'
-import { TimeParserString, getDateName, ParseTime, splitListByDate } from "../utill/TimeParser"
+import { TimeParserString, getDateName, ParseTime, splitListByDate } from "../util/TimeParser"
 import Record from "../models/Record"
 import React from "react"
 import recordAnalysis from './RecordAnalysis'
-import activity_icon from '../utill/ActivityIcon'
+import activity_icon from '../util/ActivityIcon'
 import jsonexport from "jsonexport/dist"
 import { useHistory } from "react-router"
-import { download } from "../utill/FileDownloader"
+import { download } from "../util/FileDownloader"
 import { useState } from "react"
 import ShareTrackingLinkDialog from "./ShareTrackingLinkDialog"
 

@@ -1,8 +1,8 @@
 import { LatLng } from "leaflet";
 import Path from "../models/Path";
-import Position, { comparePosition, PositionToLatLang, PositionToSpeedPositionFormat } from "../models/Position";
-import { DistanceUnits, SpeedUnits } from '../utill/UnitMetrics'
-import { getPathLength, convertDistance, getPreciseDistance, convertSpeed, getSpeed, getCompassDirection, getGreatCircleBearing } from 'geolib'
+import Position, { comparePosition, PositionToLatLang } from "../models/Position";
+import { DistanceUnits, SpeedUnits } from './UnitMetrics'
+import { getPathLength, convertDistance, getPreciseDistance, convertSpeed, getCompassDirection, getGreatCircleBearing } from 'geolib'
 
 /**
  * given two geolocation coordinates(Latitude/Longitude), calculate the intermediate point between them by a precentage value
@@ -96,7 +96,9 @@ export function pathDistance(path: Path, format: DistanceUnits = DistanceUnits.m
 
 export function pathAvgSpeed(path: Path, format: SpeedUnits = SpeedUnits.kilometers_per_hour) : number {
     const a = path[0], b = path[path.length-1]
-    return convertSpeed(getSpeed(PositionToSpeedPositionFormat(a), PositionToSpeedPositionFormat(b)), format)
+	const distance = convertDistance(getPathLength(path, getPreciseDistance), DistanceUnits.meter)
+	const time = (b.time - a.time) / 1000
+    return convertSpeed(distance/time, format)
 }
 
 export function pathCompass(path: Path) : {direction: string, greatCircleBearing: number} {

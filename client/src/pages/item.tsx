@@ -10,12 +10,12 @@ import PathMarker, { PathColors, PathProgress } from "../components/PathMarker"
 import Path from "../models/Path"
 import { useAppDispatch } from "../state/hooks"
 import { fetchFromHistory, fetchFromShare, selectTravelView } from "../state/TravelViewSlice"
-import { pathAvgSpeed, pathCompass, pathDistance, pathTime, splitPathByDistance, splitPathByTime } from "../utill/PathDecomposer"
+import { pathAvgSpeed, pathCompass, pathDistance, pathTime, splitPathByDistance, splitPathByTime } from "../util/PathDecomposer"
 import MomentUtils from '@date-io/moment'
 import { MapContainer, TileLayer } from "react-leaflet"
 import { PositionToLatLang } from "../models/Position"
 import ChangePosition from "../components/ChangePosition"
-import { CLOSE_VIEW_ZOOM, WORLD_CENTER_VIEW_LOCATION } from "../utill/MapsLocations"
+import { CLOSE_VIEW_ZOOM, WORLD_CENTER_VIEW_LOCATION } from "../util/MapsLocations"
 import { LatLng } from "leaflet"
 
 export default function Item() {

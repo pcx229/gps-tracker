@@ -1,11 +1,11 @@
 
-import { getSpeed, convertSpeed } from 'geolib'
+import { getSpeed, convertSpeed, getPreciseDistance } from 'geolib'
 
 import { useEffect, useState } from "react"
 import Position, { PositionToSpeedPositionFormat } from '../models/Position'
 import { useAppSelector } from '../state/hooks'
 import { ConnectionStatus, selectWatchedPosition } from '../state/WatchPositionSlice'
-import { SpeedUnits } from '../utill/UnitMetrics'
+import { SpeedUnits } from '../util/UnitMetrics'
 
 // const { direction, rhumbLineBearing } = useDistance()
 
@@ -34,7 +34,7 @@ export default function useSpeed(format: SpeedUnits = SpeedUnits.kilometers_per_
     
     useEffect(() => {
         if(position.last && position.current) {
-            setSpeed(convertSpeed(getSpeed(PositionToSpeedPositionFormat(position.last), PositionToSpeedPositionFormat(position.current)), format))
+            setSpeed(convertSpeed(getSpeed(PositionToSpeedPositionFormat(position.last), PositionToSpeedPositionFormat(position.current), getPreciseDistance), format))
         }
     }, [format, position, currentWatchingPosition])
 

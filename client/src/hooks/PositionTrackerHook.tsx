@@ -21,6 +21,8 @@ export default function usePositionTracker() : Tracker {
 
     const dispatch = useAppDispatch()
 
+    const [isTracking, setIsTracking] = useState(travel.startTime !== undefined)
+
 	const resetTracker = useCallback(
 		() => {
             setIsTracking(false)
@@ -44,8 +46,6 @@ export default function usePositionTracker() : Tracker {
 		},
 		[dispatch]
 	)
-
-    const [isTracking, setIsTracking] = useState(travel.startTime !== undefined)
 
     useEffect(() => {
         if(isTracking && travel.startTime && currentWatchingPosition)

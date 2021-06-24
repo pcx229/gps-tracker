@@ -3,7 +3,7 @@
 import { Box, Icon, IconButton, Tooltip } from '@material-ui/core'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
-import DEVICE_MODE from '../utill/DeviceMode'
+import DEVICE_MODE from '../util/DeviceMode'
 
 interface SelectModeFooterProps {
     mode: DEVICE_MODE
