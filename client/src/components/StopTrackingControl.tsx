@@ -8,6 +8,7 @@ import useCompass from '../hooks/CompassHook'
 import useDistance from '../hooks/DistanceHook'
 import useSpeed from '../hooks/SpeedHook'
 import useTimer from '../hooks/useTimer'
+import NoSleep from '../util/PreventMobileSleepMode'
 
 const useStyles =  makeStyles((theme: Theme) => createStyles({
     stopRecordButton: {
@@ -50,6 +51,9 @@ export default function StopTrackingControl({stopTracker} : StopTrackingControlP
     const time = useTimer()
 
     const clickStopTracking = () => {
+	  // re-enable screen sleep mode 
+	  NoSleep.disable()
+	  // stop tracking path
       stopTracker()
     }
 

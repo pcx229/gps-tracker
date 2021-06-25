@@ -16,6 +16,7 @@ import SelectModeFooter from '../components/SelectModeFooter'
 import PositionDeviceStatus from '../components/PositionDeviceStatus'
 import BorderLayout from '../components/BorderLayout'
 import { stopWatchingPosition } from '../state/WatchPositionSlice'
+import NoSleep from '../util/PreventMobileSleepMode'
 
 export default function Home() {
 
@@ -29,10 +30,6 @@ export default function Home() {
   }
 
   useEffect(() => {
-	// clear any tracking that took place
-    resetTracker()
-	// clear position watcher
-	dispatch<any>(stopWatchingPosition())
 	// select mode
     switch(mode) {
       case DEVICE_MODE.TEST:
@@ -47,6 +44,14 @@ export default function Home() {
     }
 	// fetch history items
     dispatch<any>(fetchAllHistory())
+	return () => {
+		// clear any tracking that took place
+		resetTracker()
+		// clear position watcher
+		dispatch<any>(stopWatchingPosition())
+		// re-enable screen sleep mode if was disabled
+		NoSleep.disable()
+	}
   }, [mode, dispatch, resetTracker])
 
   let control = undefined

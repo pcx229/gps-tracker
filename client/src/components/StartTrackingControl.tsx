@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../state/hooks'
 import { ConnectionStatus, selectWatchedPosition, startWatchingPosition, stopWatchingPosition } from '../state/WatchPositionSlice'
 import Alert from '@material-ui/lab/Alert'
 import { CircularProgress } from '@material-ui/core'
+import NoSleep from '../util/PreventMobileSleepMode'
 
 const useStyles =  makeStyles((theme: Theme) => createStyles({
     startRecordButton: {
@@ -75,6 +76,9 @@ export default function StartTrackingControl({startTracker} : StartTrackingContr
     }, [startTracker, attemptToStartTracking, attemptToGetPermisisionToUseGPS, watchingStatus])
 
     const clickStartTracking = () => {
+	  // prevent screen sleep mode 
+	  NoSleep.enable()
+	  // start tracking path
       if(watchingStatus === ConnectionStatus.active) {
         startTracker()
       } else {

@@ -17,6 +17,7 @@ import Globe from "../components/Globe"
 import { ConnectionStatus, selectWatchedPosition, startWatchingPosition, stopWatchingPosition } from "../state/WatchPositionSlice"
 import { useAppDispatch, useAppSelector } from "../state/hooks"
 import services, { GeolocationTypes } from "../services"
+import NoSleep from '../util/PreventMobileSleepMode'
 
 const useStyles =  makeStyles((theme: Theme) => createStyles({
     retryButton: {
@@ -81,14 +82,20 @@ export default function Mobile() {
     }, [status, key])
 
     useEffect(() => {
-        services.config(GeolocationTypes.GPS)
-    }, [])
-
-    useEffect(() => {
         if(key) {
+			// put a screen sleep lock on click
+			document.addEventListener('click', function enableNoSleep() {
+				document.removeEventListener('click', enableNoSleep, false);
+				NoSleep.enable();
+			  }, false)
+			// receive Geolocation from device sensor
+			services.config(GeolocationTypes.GPS)
+			// start watching position
             dispatch<any>(startWatchingPosition())
             return () => {
                 dispatch<any>(stopWatchingPosition())
+				// remove screen sleep lock
+				NoSleep.disable()
             }
         }
     }, [dispatch, askForGpsAccess, key])
