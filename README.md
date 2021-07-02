@@ -52,7 +52,7 @@ docker run -e DB_CONNECTION_STRING={YOUR_MONGODB_SERVER_CONNECTION_STRING} -e PO
 
 ### ScreenShot
 
-![tracking app](https://raw.githubusercontent.com/pcx229/gps-tracker/tree/master/screenshot.gif)
+![tracking app](https://raw.githubusercontent.com/pcx229/gps-tracker/master/screenshot.gif)
 
 
-## [Demo](http://desolate-forest-56064.herokuapp.com/)
+## [Demo](https://desolate-forest-56064.herokuapp.com/)
