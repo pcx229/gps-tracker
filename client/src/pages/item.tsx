@@ -1,7 +1,7 @@
 import { Box, Container, Icon, IconButton, LinearProgress, Slider, TextField, Tooltip, Typography } from "@material-ui/core"
 import Alert from "@material-ui/lab/Alert"
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { useLocation, useParams } from "react-router"
 import { Link } from "react-router-dom"
@@ -30,6 +30,11 @@ export default function Item() {
     const [atDistance, setAtDistance] = useState<number[]>([0, 0])
     const [timeRange, setTimeRange] = useState<number[]>([0, 0])
     const [atTime, setAtTime] = useState<number[]>([0, 0])
+
+	const [inputAtDistanceSlider, setInputAtDistanceSlider] = useState<number[]>([0, 0])
+	const [inputAtDistanceNumbers, setInputAtDistanceNumbers] = useState<Array<number | ''>>([0, 0])
+	const [inputAtTimeSlider, setInputAtTimeSlider] = useState<number[]>([0, 0])
+	const [inputAtTimePicks, setInputAtTimePicks] = useState<Array<number | undefined>>([0, 0])
 
     const [speed, setSpeed] = useState<number | undefined>(undefined)
     const [distance, setDistance] = useState<number | undefined>(undefined)
@@ -65,68 +70,205 @@ export default function Item() {
             setDistanceRange(total_distance)
             setTimeRange(total_time)
             setAtDistance(total_distance)
+			setInputAtDistanceSlider(total_distance)
+			setInputAtDistanceNumbers(total_distance)
             setAtTime(total_time)
+			setInputAtTimeSlider(total_time)
+			setInputAtTimePicks(total_time)
             setPathInRange(path)
         }
     }, [path])
 
-    const updateByTime = (start: number, end: number) => {
+	// change distance range with time picker and slider
+
+    const changeTimeStart = useCallback((event: any) => {
+        let start = event, end = inputAtTimePicks[1]
+		if(start ===  undefined) {
+			setInputAtTimePicks([undefined, end])
+			return
+		}
+		start = Number(start) || 0
+		if(isNaN(start)) {
+			start = 0
+		}
+		if(start < timeRange[0]) {
+			start = timeRange[0]
+		} else if(start > timeRange[1]) {
+			start = timeRange[1]
+		}
+		setInputAtTimePicks([start, end])
+    }, [timeRange, inputAtTimePicks])
+
+	const changeTimeStartValidate = useCallback(() => {
+		let start = inputAtTimePicks[0], end = inputAtTimePicks[1]
+		if(start === undefined) {
+			return false
+		}
+		if(end !== undefined && start > end) {
+			return false
+		}
+		return true
+	}, [inputAtTimePicks])
+
+    const changeTimeEnd = useCallback((event: any) => {
+        let start = inputAtTimePicks[0], end = event
+		if(end ===  undefined) {
+			setInputAtTimePicks([start, end])
+			return
+		}
+		end = Number(end) || 0
+		if(isNaN(end)) {
+			end = 0
+		}
+		if(end < timeRange[0]) {
+			end = timeRange[0]
+		} else if(end > timeRange[1]) {
+			end = timeRange[1]
+		}
+		setInputAtTimePicks([start, end])
+    }, [timeRange, inputAtTimePicks])
+
+	const changeTimeEndValidate = useCallback(() => {
+        let end = inputAtTimePicks[1]
+		if(end === undefined) {
+			return false
+		}
+		return true
+	}, [inputAtTimePicks])
+
+	const changeTimeStartEndValidate = useCallback(() => {
+		return changeTimeStartValidate() && changeTimeEndValidate()
+	}, [changeTimeStartValidate, changeTimeEndValidate])
+
+    const changeTimeStartEnd = (event: any, newValue: any) => {
+		setInputAtTimePicks(newValue)
+		setInputAtTimeSlider(newValue)
+    }
+
+    const updateByTime = useCallback((start: number, end: number) => {
         let split = splitPathByTime(path, start, end)
         setPathInRange(split)
         let before_distance = pathDistance(splitPathByTime(path, path[0].time, start)),
             after_distance = pathDistance(split)
-        setAtDistance([before_distance, before_distance + after_distance])
+		let total_distance = before_distance + after_distance
+        setAtDistance([before_distance, total_distance])
+		setInputAtDistanceSlider([before_distance, total_distance])
+		setInputAtDistanceNumbers([before_distance, total_distance])
+    }, [path])
+
+	useEffect(() => { // update slider with date picks input
+		if(changeTimeStartEndValidate()) {
+			if(inputAtTimePicks[0] !== inputAtTimeSlider[0] || inputAtTimePicks[1] !== inputAtTimeSlider[1]) {
+				setInputAtTimeSlider([...(inputAtTimePicks as number[])])
+			}
+		}
+	}, [changeTimeStartEndValidate, inputAtTimePicks, inputAtTimeSlider])
+
+	useEffect(() => { // update date values by slider input at minimum every 200ms with changes detected
+		let update = window.setTimeout(() => {
+			const [wanted_start, wanted_end] = inputAtTimeSlider
+			const [start, end] = atTime
+			if(start !== wanted_start || end !== wanted_end) {
+				updateByTime(wanted_start, wanted_end)
+			}
+		}, 50)
+		return () => window.clearTimeout(update)
+	}, [updateByTime, atTime, inputAtTimeSlider])
+
+	// change distance range with numbers and slider
+
+    const changeDistanceStart = useCallback((event: any) => {
+        let start = event.target.value, end = inputAtDistanceNumbers[1]
+		if(start ===  '') {
+			setInputAtDistanceNumbers(['', end])
+			return
+		}
+		start = parseInt(start) || 0
+		if(isNaN(start)) {
+			start = 0
+		}
+		if(start < distanceRange[0]) {
+			start = distanceRange[0]
+		} else if(start > distanceRange[1]) {
+			start = distanceRange[1]
+		}
+		setInputAtDistanceNumbers([start, end])
+    }, [distanceRange, inputAtDistanceNumbers])
+
+	const changeDistanceStartValidate = useCallback(() => {
+		let start = inputAtDistanceNumbers[0], end = inputAtDistanceNumbers[1]
+		if(start === '') {
+			return false
+		}
+		if(end !== '' && start > end) {
+			return false
+		}
+		return true
+	}, [inputAtDistanceNumbers])
+
+    const changeDistanceEnd = useCallback((event: any) => {
+        let start = inputAtDistanceNumbers[0], end = event.target.value
+		if(end ===  '') {
+			setInputAtDistanceNumbers([start, end])
+			return
+		}
+		end = parseInt(end) || 0
+		if(isNaN(end)) {
+			end = 0
+		}
+		if(end < distanceRange[0]) {
+			end = distanceRange[0]
+		} else if(end > distanceRange[1]) {
+			end = distanceRange[1]
+		}
+		setInputAtDistanceNumbers([start, end])
+    }, [distanceRange, inputAtDistanceNumbers])
+
+	const changeDistanceEndValidate = useCallback(() => {
+        let end = inputAtDistanceNumbers[1]
+		if(end === '') {
+			return false
+		}
+		return true
+	}, [inputAtDistanceNumbers])
+
+	const changeDistanceStartEndValidate = useCallback(() => {
+		return changeDistanceStartValidate() && changeDistanceEndValidate()
+	}, [changeDistanceStartValidate, changeDistanceEndValidate])
+
+    const changeDistanceStartEnd = (event: any, newValue: any) => {
+		setInputAtDistanceNumbers(newValue)
+		setInputAtDistanceSlider(newValue)
     }
 
-    const updateByDistance = (start: number, end: number) => {
-        let split = splitPathByDistance(path, start, end)
-        setPathInRange(split)
-        setAtTime([split[0].time, split[split.length-1].time])
-    }
+	useEffect(() => { // update slider with numbers input
+		if(changeDistanceStartEndValidate()) {
+			if(inputAtDistanceNumbers[0] !== inputAtDistanceSlider[0] || inputAtDistanceNumbers[1] !== inputAtDistanceSlider[1]) {
+				setInputAtDistanceSlider([...(inputAtDistanceNumbers as number[])])
+			}
+		}
+	}, [changeDistanceStartEndValidate, inputAtDistanceNumbers, inputAtDistanceSlider])
 
-    const changeTimeRange = (event: any, newValue: number | number[]) => {
-        const [start, end] = newValue as number[]
-        setAtTime([start, end])
-        updateByTime(start, end)
-    }
+	const updateByDistance = useCallback((start: number, end: number) => { 
+		let split = splitPathByDistance(path, start, end)
+		let start_time = split[0].time, end_time = split[split.length-1].time
+		setPathInRange(split)
+		setAtTime([start_time, end_time])
+		setAtDistance([start, end])
+		setInputAtTimeSlider([start_time, end_time])
+		setInputAtTimePicks([start_time, end_time])
+	}, [path])
 
-    const changeDistanceRange = (event: any, newValue: number | number[]) => {
-        const [start, end] = newValue as number[]
-        setAtDistance([start, end])
-        updateByDistance(start, end)
-    }
-
-    const changeDistanceStart = (event: any) => {
-        let n = parseInt(event.target.value)
-        if(!isNaN(n) && n < distanceRange[1] && n < atDistance[1] && n >= distanceRange[0]) {
-            setAtDistance([n, atDistance[1]])
-            updateByDistance(n, atDistance[1])
-        }
-    }
-
-    const changeDistanceEnd = (event: any) => {
-        let n : number | undefined = parseInt(event.target.value)
-        if(!isNaN(n) && n > distanceRange[0] && n > atDistance[0] && n <= distanceRange[1]) {
-            setAtDistance([atDistance[0], n])
-            updateByDistance(atDistance[0], n)
-        }
-    }
-
-    const changeTimeStart = (event: any) => {
-        let d : number | undefined = event
-        if(d && d < timeRange[1] && d < atTime[1] && d >= timeRange[0]) {
-            setAtTime([d, atDistance[1]])
-            updateByTime(d, atDistance[1])
-        }
-    }
-
-    const changeTimeEnd = (event: any) => {
-        let d : number | undefined = event
-        if(d && d > timeRange[0] && d > atTime[0] && d <= timeRange[1]) {
-            setAtTime([atDistance[0], d])
-            updateByTime(atDistance[0], d)
-        }
-    }
+	useEffect(() => { // update distance values by slider input at minimum every 200ms with changes detected
+		let update = window.setTimeout(() => {
+			const [wanted_start, wanted_end] = inputAtDistanceSlider
+			const [start, end] = atDistance
+			if(start !== wanted_start || end !== wanted_end) {
+				updateByDistance(wanted_start, wanted_end)
+			}
+		}, 50)
+		return () => window.clearTimeout(update)
+	}, [updateByDistance, atDistance, inputAtDistanceSlider])
 
     if(!id && !hash)
         return <Alert severity="error">404 page not found!</Alert>
@@ -169,7 +311,8 @@ export default function Item() {
                             <TextField
                                 label="start"
                                 type="number"
-                                value={atDistance[0]}
+                                value={inputAtDistanceNumbers[0]}
+								error={!changeDistanceStartValidate()}
                                 onChange={changeDistanceStart}
                                 InputLabelProps={{
                                     shrink: true,
@@ -178,7 +321,8 @@ export default function Item() {
                             <TextField
                                 label="end"
                                 type="number"
-                                value={atDistance[1]}
+								value={inputAtDistanceNumbers[1]}
+								error={!changeDistanceEndValidate()}
                                 onChange={changeDistanceEnd}
                                 InputLabelProps={{
                                     shrink: true,
@@ -186,8 +330,8 @@ export default function Item() {
                             <Typography>&nbsp; meters</Typography>
                         </Box>
                         <Slider
-                            onChange={changeDistanceRange}
-                            value={atDistance}
+                            onChange={changeDistanceStartEnd}
+                            value={inputAtDistanceSlider}
                             step={1}
                             min={distanceRange[0]}
                             max={distanceRange[1]}
@@ -198,17 +342,19 @@ export default function Item() {
                         <Box display="flex" alignItems="end" flexDirection="row" justifyContent="start">
                             <MuiPickersUtilsProvider utils={MomentUtils}>
                                 <DateTimePicker 
-                                    value={atTime[0]} 
-                                    onChange={changeTimeStart} />
+                                    value={inputAtTimePicks[0]} 
+									error={!changeTimeStartValidate()}
+									onChange={changeTimeStart} />
                                 <Typography>&nbsp; &nbsp;</Typography>
                                 <DateTimePicker 
-                                    value={atTime[1]} 
-                                    onChange={changeTimeEnd} />
+                                    value={inputAtTimePicks[1]} 
+									error={!changeTimeEndValidate()}
+									onChange={changeTimeEnd} />
                             </MuiPickersUtilsProvider>
                         </Box>
                         <Slider
-                            onChange={changeTimeRange}
-                            value={atTime}
+                            onChange={changeTimeStartEnd}
+                            value={inputAtTimeSlider}
                             step={1}
                             min={timeRange[0]}
                             max={timeRange[1]}
