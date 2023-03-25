@@ -28,7 +28,7 @@ export default function Guide() {
 									Press the location button &nbsp; <Icon>gps_fixed</Icon> &nbsp; then grant Geolocation access permission to the site if requested. 
 								</Typography>
 							</Grid>
-							<Grid item xs={12} container direction="row" justify="center" alignItems="center">
+							<Grid item xs={12} container direction="row" justifyContent="center" alignItems="center">
 								<img src={process.env.PUBLIC_URL + "/guides/view-location.gif"} alt="view location" />
 							</Grid>
 						</Grid>
@@ -51,7 +51,7 @@ export default function Guide() {
 									to view your recording later, select your recording from the list.
 								</Typography>
 							</Grid>
-							<Grid item xs={12} container direction="row" justify="center" alignItems="center">
+							<Grid item xs={12} container direction="row" justifyContent="center" alignItems="center">
 								<img src={process.env.PUBLIC_URL + "/guides/record-path.gif"} alt="view location" />
 							</Grid>
 						</Grid>
@@ -73,7 +73,7 @@ export default function Guide() {
 									send the link or the barcode to a friend.
 								</Typography>
 							</Grid>
-							<Grid item xs={12} container direction="row" justify="center" alignItems="center">
+							<Grid item xs={12} container direction="row" justifyContent="center" alignItems="center">
 								<img src={process.env.PUBLIC_URL + "/guides/share-path.gif"} alt="view location" />
 							</Grid>
 							<Grid item xs={12}>
@@ -81,7 +81,7 @@ export default function Guide() {
 									The link will navigate you to a view of your recorded path.
 								</Typography>
 							</Grid>
-							<Grid item xs={12} container direction="row" justify="center" alignItems="center">
+							<Grid item xs={12} container direction="row" justifyContent="center" alignItems="center">
 								<img src={process.env.PUBLIC_URL + "/guides/share-path-link.gif"} alt="view location" />
 							</Grid>
 						</Grid>
@@ -103,7 +103,7 @@ export default function Guide() {
 									send the code or the barcode to a the remote device you wish to connect to.
 								</Typography>
 							</Grid>
-							<Grid item xs={12} container direction="row" justify="center" alignItems="center">
+							<Grid item xs={12} container direction="row" justifyContent="center" alignItems="center">
 								<img src={process.env.PUBLIC_URL + "/guides/remote-connect.gif"} alt="view location" />
 							</Grid>
 							<Grid item xs={12}>
@@ -113,7 +113,7 @@ export default function Guide() {
 									when entering the site you will be requested to grant Geolocation access permission and after that you will be connected automatically to the Recorder.
 								</Typography>
 							</Grid>
-							<Grid item xs={12} container direction="row" justify="center" alignItems="center">
+							<Grid item xs={12} container direction="row" justifyContent="center" alignItems="center">
 								<img src={process.env.PUBLIC_URL + "/guides/remote-connect-mobile-view.gif"} alt="view location" />
 							</Grid>
 							<Grid item xs={12}>
@@ -121,7 +121,7 @@ export default function Guide() {
 									in the <b>Recorder</b> now you can see the mobile location.
 								</Typography>
 							</Grid>
-							<Grid item xs={12} container direction="row" justify="center" alignItems="center">
+							<Grid item xs={12} container direction="row" justifyContent="center" alignItems="center">
 								<img src={process.env.PUBLIC_URL + "/guides/remote-connect-recorder-view.gif"} alt="view location" />
 							</Grid>
 						</Grid>

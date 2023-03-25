@@ -1,6 +1,5 @@
 
-
-export default new Map([
+const activityIcon = new Map([
     ['unknown', "help"],
     ['walking', "directions_walk"],
     ['running', "directions_run"],
@@ -10,3 +9,4 @@ export default new Map([
     ['flight', "flight"],
     ['sport', "sports_basketball"]
 ])
+export default activityIcon

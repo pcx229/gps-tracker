@@ -82,7 +82,7 @@ export default function ResultMetrics({activity, setActivity, distance, time, av
                             </Box>
                         </Grid>
                         <Grid item xs={6} style={{width: '25rem'}}>
-                            <Grid container direction="column" justify="center" style={{ height: "100%" }}>
+                            <Grid container direction="column" justifyContent="center" style={{ height: "100%" }}>
                                 <Grid item>
                                     <Typography>Distance: {String(distance/1000)} km</Typography>
                                 </Grid>

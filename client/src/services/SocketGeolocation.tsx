@@ -187,7 +187,7 @@ export function MobileSocket() {
             socket.on("error", callback)
             socket.on("connect_error", callback)
         },
-        RemoveOnErrorListener(callback: (error: string) => void) {
+        RemoveOnErrorListener(callback: (error: string | Error) => void) {
             socket.off("error", callback)
             socket.off("connect_error", callback)
         },

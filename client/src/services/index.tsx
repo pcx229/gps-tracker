@@ -50,4 +50,5 @@ export class ServicesFactory {
     }
 }
 
-export default new ServicesFactory()
+const servicesFactory = new ServicesFactory()
+export default servicesFactory

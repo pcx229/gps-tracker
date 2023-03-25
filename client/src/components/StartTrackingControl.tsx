@@ -105,7 +105,7 @@ export default function StartTrackingControl({startTracker} : StartTrackingContr
 
     return (
 		<>
-			<Grid className={classes.controllButtonsSpacer} container direction="row" justify="space-between">
+			<Grid className={classes.controllButtonsSpacer} container direction="row" justifyContent="space-between">
 				<Grid item>
 					{
 						((watchingStatus === ConnectionStatus.asking_permisision) && attemptToStartTracking) ?

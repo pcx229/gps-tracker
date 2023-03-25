@@ -89,7 +89,7 @@ export default function SaveTrackingControl({resetTracker} : SaveTrackingControl
     
     return (
       <>
-        <Grid className={classes.controllButtonsSpacer} container direction="row" justify="flex-start">
+        <Grid className={classes.controllButtonsSpacer} container direction="row" justifyContent="flex-start">
           <Grid item>
             <Fab variant="extended" onClick={clickSaveTracking} className={classes.saveRecordButton}>
               <Icon className={classes.extendedButtonIcon}>done</Icon>
